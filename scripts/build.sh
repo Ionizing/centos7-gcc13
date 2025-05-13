@@ -8,6 +8,11 @@ echo "e275e76442a6067341a27f04c5c6b83d8613144004c0413528863dc6b5c743da " *.tar.*
 tar xf *.tar.*
 mkdir build-gcc
 cd build-gcc
+sed -i.bak \
+    -e 's|^mirrorlist=|#mirrorlist=|g' \
+    -e 's|^#baseurl=http://mirror.centos.org/centos|baseurl=https://vault.centos.org/centos|g' \
+    /etc/yum.repos.d/CentOS-Base.repo
+    yum makecache
 yum -y install gcc-c++ make libmpc-devel
 ../gcc-*/configure --enable-languages=c,c++ --disable-multilib
 make -j$(nproc)
